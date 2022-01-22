@@ -1,9 +1,9 @@
 /*
-大牌服饰盛典
+大牌集结，玩转年货节
 
-https://lzdz1-isv.isvjcloud.com/dingzhi/dz/openCard/activity?activityId=dz2021101420000sjleowq&shareUuid=d259bceb218e40af9490693e8f48a370
+https://lzdz1-isv.isvjcloud.com/dingzhi/dz/openCard/activity?activityId=14e6bdc3ee7a496f87b89eee902a370e&shareUuid=f5bcf676e8a545e4a56bdfd1d43a6173
 */
-const $ = new Env("大牌服饰盛典");
+const $ = new Env("大牌集结，玩转年货节");
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [], cookie = '', message = '';
@@ -57,15 +57,15 @@ if ($.isNode()) {
             $.ADID = getUUID('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', 1);
             $.UUID = getUUID('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
             authorCodeList = [
-                'f26c9763c5eb4604955a25a2deec5668',
-               
+                '444b1bf2c8ac454ba6f8aaa0d08b36d8',
+             
             ]
             // $.authorCode = authorCodeList[random(0, authorCodeList.length)]
             $.authorCode = ownCode ? ownCode : authorCodeList[random(0, authorCodeList.length)]
             $.authorNum = `${random(1000000, 9999999)}`
             $.randomCode = random(1000000, 9999999)
-            $.activityId = '67ba2ad44b8041c9925bf0e72febbdb2'
-            $.activityShopId = '85093'
+            $.activityId = '14e6bdc3ee7a496f87b89eee902a370e'
+            $.activityShopId = '1000013169'
             $.activityUrl = `https://lzdz1-isv.isvjd.com/dingzhi/dz/openCard/activity/${$.authorNum}?activityId=${$.activityId}&shareUuid=${encodeURIComponent($.authorCode)}&adsource=null&shareuserid4minipg=null&shopid=${$.activityShopId}&lng=00.000000&lat=00.000000&sid=&un_area=`
             await marry();
             await $.wait(3000)
@@ -132,6 +132,10 @@ async function marry() {
                 $.openCardStatus.cardList1.filter((x) => { if (x.status === 0) { t1TaskList.push(x) } })
                 t2TaskList = []
                 $.openCardStatus.cardList2.filter((x) => { if (x.status === 0) { t2TaskList.push(x) } })
+                t3TaskList = []
+                $.openCardStatus.cardList3.filter((x) => { if (x.status === 0) { t1TaskList.push(x) } })
+                t4TaskList = []
+                $.openCardStatus.cardList4.filter((x) => { if (x.status === 0) { t2TaskList.push(x) } })
                 if (t1TaskList.length < 1) {
                     console.log("    >>>已经完成入会任务")
 
@@ -148,15 +152,27 @@ async function marry() {
                         await bindWithVender({ "venderId": `${vo.value}`, "bindByVerifyCodeFlag": 1, "registerExtend": {}, "writeChildFlag": 0, "activityId": $.openCardActivityId, "channel": 401 }, vo.value)
                         await $.wait(2000)
                     }
+                    for (const vo of t3TaskList) {
+                        $.log(`    >>>${vo.name}`)
+                        await getShopOpenCardInfo({ "venderId": `${vo.value}`, "channel": "401" })
+                        await bindWithVender({ "venderId": `${vo.value}`, "bindByVerifyCodeFlag": 1, "registerExtend": {}, "writeChildFlag": 0, "activityId": $.openCardActivityId, "channel": 401 }, vo.value)
+                        await $.wait(2000)
+                    }
+                    for (const vo of t4TaskList) {
+                        $.log(`    >>>${vo.name}`)
+                        await getShopOpenCardInfo({ "venderId": `${vo.value}`, "channel": "401" })
+                        await bindWithVender({ "venderId": `${vo.value}`, "bindByVerifyCodeFlag": 1, "registerExtend": {}, "writeChildFlag": 0, "activityId": $.openCardActivityId, "channel": 401 }, vo.value)
+                        await $.wait(2000)
+                    }
                 }
 
                 await task("taskact/openCardcommon/drawContent", `activityId=${$.activityId}&pin=${encodeURIComponent($.secretPin)}`)
                 await $.wait(2000)
                 await task('dz/openCard/checkOpenCard', `activityId=${$.activityId}&actorUuid=${$.actorUuid}&shareUuid=${$.authorCode}&pin=${encodeURIComponent($.secretPin)}`)
                 await $.wait(2000)
-                await task("dz/openCard/startDraw", `activityId=${$.activityId}&actorUuid=${$.actorUuid}&type=1&pin=${encodeURIComponent($.secretPin)}`)
-                await $.wait(2000)
                 await task("dz/openCard/startDraw", `activityId=${$.activityId}&actorUuid=${$.actorUuid}&type=2&pin=${encodeURIComponent($.secretPin)}`)
+                await $.wait(2000)
+                await task("dz/openCard/saveTask", `activityId=${$.activityId}&pin=${encodeURIComponent($.secretPin)}&actorUuid=${$.actorUuid}&taskType=2&taskValue=100024065130`)
 
             } else {
                 $.log("没有获取到对应的任务。\n")
@@ -229,7 +245,7 @@ function task(function_id, body, isCommon = 0, own = 0) {
                                     break;
                                 case 'crm/pageVisit/insertCrmPageVisit':
                                     $.log("==> 上报成功")
-
+                                    break;
                                 case 'dz/openCard/followShop':
                                     if (data.data) {
                                         if (data.data.addBeanNum) {
@@ -237,8 +253,6 @@ function task(function_id, body, isCommon = 0, own = 0) {
                                             $.log(`==>获得【${data.data.addBeanNum}】京豆\n`)
                                         }
                                     }
-                                    break;
-
                                     break;
                                 default:
                                     $.log(JSON.stringify(data))
