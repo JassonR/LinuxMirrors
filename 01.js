@@ -1,7 +1,7 @@
 /*
-精致宅家 春尚焕新
+春日风尚 入会焕新
 */
-const $ = new Env("精致宅家 春尚焕新");
+const $ = new Env("春日风尚 入会焕新");
 const jdCookieNode = $.isNode() ? require("./jdCookie.js") : "";
 const notify = $.isNode() ? require("./sendNotify") : "";
 let cookiesArr = [], cookie = "", message = "";
@@ -30,7 +30,7 @@ if ($.isNode()) {
   authorCodeList = await getAuthorCodeList('')
   if ($.getAuthorCodeListerr === false) {
       authorCodeList = [
-          '14f03b2e78dd4ec6a492f1ff88e5b9e2',
+          '5ea9abcb88d14a3b9ba00113b5afc633',
       ]
   }
   for (let i = 0; i < cookiesArr.length; i++) {
@@ -61,9 +61,9 @@ if ($.isNode()) {
       $.authorCode = ownCode ? ownCode : authorCodeList[random(0, authorCodeList.length)]
       $.authorNum = `${random(1000000, 9999999)}`;
       $.randomCode = random(1000000, 9999999);
-      $.activityId = "dz6054741f4dfaa17788a046da6c1c";
-      $.activityShopId = "1000351442";
-      $.activityUrl = `https://lzdz1-isv.isvjcloud.com/dingzhi/womenWear/union/activity/${$.authorNum}?activityId=${$.activityId}&shareUuid=${encodeURIComponent($.authorCode)}&adsource=null&shareuserid4minipg=${encodeURIComponent($.secretPin)}&shopid=${$.activityShopId}&sid=&un_area=`;
+      $.activityId = "dz1a8e2d544da69c0cfc0ef18187ba";
+      $.activityShopId = "48034";
+      $.activityUrl = `https://lzdz1-isv.isvjcloud.com/dingzhi/march/fashionUnion/activity/${$.authorNum}?activityId=${$.activityId}&shareUuid=${encodeURIComponent($.authorCode)}&adsource=null&shareuserid4minipg=${encodeURIComponent($.secretPin)}&shopid=${$.activityShopId}&sid=&un_area=`;
       await member();
       await $.wait(1000);
       if ($.bean > 0) {
@@ -101,15 +101,15 @@ async function member() {
       await taskaccessLog("common/accessLogWithAD", `venderId=${$.activityShopId}&code=99&pin=${encodeURIComponent($.secretPin)}&activityId=${$.activityId}&pageUrl=${$.activityUrl}&subType=app&adSource=null`, 1);
       await task("wxActionCommon/getUserInfo", `pin=${encodeURIComponent($.secretPin)}`, 1);
       if ($.index === 1) {
-        await task("/womenWear/union/activityContent", `activityId=${$.activityId}&pin=${encodeURIComponent($.secretPin)}&pinImg=&nick=${encodeURIComponent($.pin)}&shareUuid=${encodeURIComponent($.authorCode)}`, 0, 1);
+        await task("/march/fashionUnion/activityContent", `activityId=${$.activityId}&pin=${encodeURIComponent($.secretPin)}&pinImg=&nick=${encodeURIComponent($.pin)}&shareUuid=${encodeURIComponent($.authorCode)}`, 0, 1);
       } else {
-        await task("/womenWear/union/activityContent", `activityId=${$.activityId}&pin=${encodeURIComponent($.secretPin)}&pinImg=&nick=${encodeURIComponent($.pin)}&shareUuid=${encodeURIComponent($.authorCode)}`);
+        await task("/march/fashionUnion/activityContent", `activityId=${$.activityId}&pin=${encodeURIComponent($.secretPin)}&pinImg=&nick=${encodeURIComponent($.pin)}&shareUuid=${encodeURIComponent($.authorCode)}`);
       }
       $.log("关注店铺");
-      await task("womenWear/union/saveTask", `activityId=${$.activityId}&actorUuid=${$.actorUuid}&pin=${encodeURIComponent($.secretPin)}&taskType=23&taskValue=1&shareUuid=${encodeURIComponent($.authorCode)}`);
-      await task("womenWear/union/saveTask", `activityId=${$.activityId}&actorUuid=${$.actorUuid}&pin=${encodeURIComponent($.secretPin)}&taskType=21&taskValue=&shareUuid=${encodeURIComponent($.authorCode)}`);
+      await task("march/fashionUnion/saveTask", `activityId=${$.activityId}&actorUuid=${$.actorUuid}&pin=${encodeURIComponent($.secretPin)}&taskType=23&taskValue=1&shareUuid=${encodeURIComponent($.authorCode)}`);
+      await task("march/fashionUnion/saveTask", `activityId=${$.activityId}&actorUuid=${$.actorUuid}&pin=${encodeURIComponent($.secretPin)}&taskType=21&taskValue=&shareUuid=${encodeURIComponent($.authorCode)}`);
       await task("taskact/common/drawContent", `activityId=${$.activityId}&pin=${encodeURIComponent($.secretPin)}`);
-      await task("womenWear/union/initOpenCard", `pin=${encodeURIComponent($.secretPin)}&activityId=${$.activityId}&shareUuid=${encodeURIComponent($.authorCode)}`);
+      await task("march/fashionUnion/initOpenCard", `pin=${encodeURIComponent($.secretPin)}&activityId=${$.activityId}&shareUuid=${encodeURIComponent($.authorCode)}`);
       $.log("加入店铺会员");
       if ($.openCardList) {
         for (const vo of $.openCardList) {
@@ -126,10 +126,12 @@ async function member() {
       } else {
         $.log("没有获取到对应的任务。\n");
       }
-      await task("womenWear/union/initOpenCard", `pin=${encodeURIComponent($.secretPin)}&activityId=${$.activityId}&shareUuid=${encodeURIComponent($.authorCode)}`);
+      await task("march/fashionUnion/initOpenCard", `pin=${encodeURIComponent($.secretPin)}&activityId=${$.activityId}&shareUuid=${encodeURIComponent($.authorCode)}`);
       console.log("去助力 -> " + $.authorCode);
       await task("linkgame/assist/status", `activityId=${$.activityId}&pin=${encodeURIComponent($.secretPin)}&shareUuid=${$.authorCode}`);
       await task("linkgame/assist", `activityId=${$.activityId}&pin=${encodeURIComponent($.secretPin)}&shareUuid=${$.authorCode}`);
+
+      await task("march/fashionUnion/draw", `pin=${encodeURIComponent($.secretPin)}&activityId=${$.activityId}`);
       // await task('linkgame/help/list', `pin=${encodeURIComponent($.secretPin)}&activityId=${$.activityId}`)
 
       // await task('linkgame/task/info', `pin=${encodeURIComponent($.secretPin)}&activityId=${$.activityId}`)
@@ -171,7 +173,7 @@ function task(function_id, body, isCommon = 0, own = 0) {
                   break;
                 case "wxActionCommon/getUserInfo":
                   break;
-                case "/womenWear/union/activityContent":
+                case "/march/fashionUnion/activityContent":
                   if (!data.data.hasEnd) {
                     $.log(`开启【${data.data.activityName}】活动`);
                     $.log("-------------------");
@@ -184,15 +186,15 @@ function task(function_id, body, isCommon = 0, own = 0) {
                     $.log("活动已经结束");
                   }
                   break;
-                case "womenWear/union/initOpenCard":
+                case "march/fashionUnion/initOpenCard":
                   $.openCardList = data.data.openInfo;
                   $.openCardStatus = data.data.allOpenCard;
                   // console.log(data)
                   break;
-                case "womenWear/union/saveTask":
+                case "march/fashionUnion/saveTask":
                   console.log(data);
                   break;
-                case "linkgame/sign":
+                case "march/fashionUnion/draw":
                   console.log(data);
                   break;
                 case "opencard/addCart":
